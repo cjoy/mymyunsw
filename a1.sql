@@ -24,6 +24,7 @@ as
 create or replace view Q2(nstudents, nstaff, nboth)
 as
 ... one SQL statement, possibly using other views defined by you ...
+
 ;
 
 -- Q3: ...
