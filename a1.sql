@@ -76,7 +76,14 @@ as
 
 create or replace view Q4a(id)
 as
-... one SQL statement, possibly using other views defined by you ...
+    select people.unswid as id
+    from people, program_enrolments, programs, semesters
+    where programs.code = '3978'
+        and program_enrolments.program = programs.id
+        and program_enrolments.student = people.id
+        and semesters.year = 2005
+        and semesters.term = 'S2'
+        and program_enrolments.semester = semesters.id;
 ;
 
 create or replace view Q4b(id)
@@ -101,7 +108,10 @@ as
 create or replace function Q6(integer) returns text
 as
 $$
-... one SQL statement, possibly using other views defined by you ...
+    select people.name
+    from people
+    where people.id = $1
+        or people.unswid = $1;
 $$ language sql
 ;
 
