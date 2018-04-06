@@ -21,17 +21,55 @@ as
 
 -- Q2: ...
 
+create or replace view nstudents(count)
+as
+    select count(*)
+    from students
+    left join staff on students.id = staff.id
+    where staff.id is null;
+;
+
+create or replace view nstaff(count)
+as
+    select count(*)
+    from staff
+    left join students on students.id = staff.id
+    where students.id is null;
+;
+
+create or replace view nboth(count)
+as
+    select count(*)
+    from staff
+    left join students on students.id = staff.id
+    where students.id is not null
+    and staff.id is not null;
+;
+
 create or replace view Q2(nstudents, nstaff, nboth)
 as
-... one SQL statement, possibly using other views defined by you ...
-
+    select nstudents.count as nstudents, nstaff.count as nstaff, nboth.count as nboth
+    from nstudents, nstaff, nboth;
 ;
 
 -- Q3: ...
 
+
+
+create or replace function get_roleid(text) returns integer
+as $$
+    select id from staff_roles where name=$1;
+$$ language sql
+;
+
 create or replace view Q3(name, ncourses)
 as
-... one SQL statement, possibly using other views defined by you ...
+    select people.name as name, count(*) as ncourses
+    from people, course_staff
+    where people.id = course_staff.staff and course_staff.role = get_roleid('Course Convenor')
+    group by people.id
+    order by ncourses desc
+    limit 1;
 ;
 
 -- Q4: ...
