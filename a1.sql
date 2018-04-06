@@ -54,7 +54,7 @@ as
 
 -- Q3: ...
 
-
+-- TODO: doesn't match the case where there are multiple staff members
 
 create or replace function get_roleid(text) returns integer
 as $$
